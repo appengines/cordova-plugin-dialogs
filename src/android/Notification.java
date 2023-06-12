@@ -64,6 +64,7 @@ public class Notification extends CordovaPlugin {
     private static final String ACTION_PROGRESS_STOP  = "progressStop";
     private static final String ACTION_DISMISS_PREVIOUS  = "dismissPrevious";
     private static final String ACTION_DISMISS_ALL  = "dismissAll";
+    private static final String ACTION_DIALOG_ACTIVE  = "dialogActive";
 
     private static final long BEEP_TIMEOUT   = 5000;
     private static final long BEEP_WAIT_TINE = 100;
@@ -132,6 +133,9 @@ public class Notification extends CordovaPlugin {
         }
         else if (action.equals(ACTION_DISMISS_ALL)) {
             this.dismissAll(callbackContext);
+        }
+        else if (action.equals(ACTION_DIALOG_ACTIVE)) {
+            return this.dialogActive(callbackContext);
         }
         else {
             return false;
@@ -425,6 +429,25 @@ public class Notification extends CordovaPlugin {
             callbackContext.success();
         }else{
             callbackContext.error("No previously opened dialogs to dismiss");
+        }
+    }
+
+    /**
+     * Check if dialog is currently active
+     */
+    public synchronized boolean dialogActive(final CallbackContext callbackContext){
+        if(!dialogs.isEmpty()){
+            for(AlertDialog dialog: dialogs){
+                if (dialog.isShowing()){
+            		callbackContext.success();
+					return true;
+				}
+            }
+            callbackContext.error("No open dialogs (2)");
+			return false;
+        }else{
+            callbackContext.error("No open dialogs");
+			return false;
         }
     }
 

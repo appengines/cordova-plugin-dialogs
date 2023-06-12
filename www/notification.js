@@ -127,6 +127,16 @@ module.exports = {
      */
     dismissAll: function (successCallback, errorCallback) {
         exec(successCallback, errorCallback, 'Notification', 'dismissAll', []);
+    },
+
+    /**
+     * Detect if there are any open dialogs.
+     *
+	 * boolean return. true = 1+ dialog(s) are active, false = no dialogs active
+	 * CALLBACKS NOT USED FOR NOW!!!
+     */
+    dialogActive: function (successCallback, errorCallback) {
+        exec(successCallback, errorCallback, 'Notification', 'dialogActive', []);
     }
 };
 
